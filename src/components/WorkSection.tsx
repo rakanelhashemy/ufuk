@@ -780,6 +780,7 @@ function SocialRail({
                         VIDEO PREVIEW
                     ================================================= */}
 
+<<<<<<< HEAD
                     {resolved.kind === 'drive-video' ? (
                       <iframe
                         src={resolved.embedUrl}
@@ -804,6 +805,21 @@ function SocialRail({
                         }}
                         src={videoUrl}
                         poster={item.poster || undefined}
+=======
+                    {isVideoFile &&
+                    !hasFailed ? (
+                      <video
+                        ref={(element) => {
+                          videoRefs.current[
+                            i
+                          ] = element;
+                        }}
+                        src={videoUrl}
+                        poster={
+                          item.poster ||
+                          undefined
+                        }
+>>>>>>> 065ac8faf2546a213be67d9dc521eb4fc38e4d74
                         muted
                         autoPlay
                         loop
@@ -811,6 +827,7 @@ function SocialRail({
                         preload="metadata"
                         controls={false}
                         disablePictureInPicture
+<<<<<<< HEAD
                         onLoadedMetadata={(event) => {
                           const video = event.currentTarget;
                           video.muted = true;
@@ -846,6 +863,69 @@ function SocialRail({
                             ...current,
                             [item.id]: true,
                           }));
+=======
+                        onLoadedMetadata={(
+                          event
+                        ) => {
+                          const video =
+                            event.currentTarget;
+
+                          video.muted =
+                            true;
+
+                          if (
+                            i ===
+                              activeIndex &&
+                            lightboxIndex ===
+                              null &&
+                            !isReducedMotion.current
+                          ) {
+                            video
+                              .play()
+                              .catch(
+                                () => {}
+                              );
+                          }
+                        }}
+                        onCanPlay={(
+                          event
+                        ) => {
+                          const video =
+                            event.currentTarget;
+
+                          if (
+                            i ===
+                              activeIndex &&
+                            lightboxIndex ===
+                              null &&
+                            !isReducedMotion.current
+                          ) {
+                            video
+                              .play()
+                              .catch(
+                                () => {}
+                              );
+                          }
+                        }}
+                        onError={() => {
+                          console.error(
+                            'Video failed to load:',
+                            {
+                              id: item.id,
+                              src: item.src,
+                              resolved,
+                              videoUrl,
+                            }
+                          );
+
+                          setFailed(
+                            (current) => ({
+                              ...current,
+                              [item.id]:
+                                true,
+                            })
+                          );
+>>>>>>> 065ac8faf2546a213be67d9dc521eb4fc38e4d74
                         }}
                       />
                     ) : thumb ? (
