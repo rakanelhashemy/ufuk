@@ -38,10 +38,6 @@ function filterVisible<T extends { src: string }>(
   );
 }
 
-/* =========================================================
-   TAB SWITCHER
-========================================================= */
-
 type TabId = 'social' | 'marketing';
 
 const tabs: {
@@ -63,10 +59,6 @@ const tabs: {
     },
   },
 ];
-
-/* =========================================================
-   SOCIAL VIDEO RAIL
-========================================================= */
 
 function SocialRail({
   lang,
@@ -109,10 +101,6 @@ function SocialRail({
   const items =
     filterVisible(socialVideos);
 
-  /* =========================================================
-     REDUCED MOTION
-  ========================================================= */
-
   useEffect(() => {
     const mq = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -139,10 +127,6 @@ function SocialRail({
       );
     };
   }, []);
-
-  /* =========================================================
-     SCROLL TO CARD
-  ========================================================= */
 
   const scrollToCard = useCallback(
     (index: number) => {
@@ -172,10 +156,6 @@ function SocialRail({
     },
     [items]
   );
-
-  /* =========================================================
-     HANDLE SCROLL
-  ========================================================= */
 
   const handleScroll = useCallback(() => {
     const rail = railRef.current;
@@ -264,10 +244,6 @@ function SocialRail({
     };
   }, [handleScroll]);
 
-  /* =========================================================
-     PAUSE VIDEOS WHEN SECTION IS OUTSIDE VIEWPORT
-  ========================================================= */
-
   useEffect(() => {
     const section =
       sectionRef.current;
@@ -325,22 +301,12 @@ function SocialRail({
     lightboxIndex,
   ]);
 
-  /* =========================================================
-     PLAY ONLY ACTIVE VIDEO
-  ========================================================= */
-
   useEffect(() => {
     videoRefs.current.forEach(
       (video, index) => {
         if (!video) {
           return;
         }
-
-        /*
-         * Stop every preview when:
-         * - lightbox is open
-         * - reduced motion is enabled
-         */
 
         if (
           lightboxIndex !== null ||
@@ -349,10 +315,6 @@ function SocialRail({
           video.pause();
           return;
         }
-
-        /*
-         * Play only the active card.
-         */
 
         if (index === activeIndex) {
           video.muted = true;
@@ -368,27 +330,13 @@ function SocialRail({
 
           video
             .play()
-            .catch(() => {
-              /*
-               * Browser autoplay policy
-               * may reject playback.
-               *
-               * The video can still be
-               * opened normally in the
-               * lightbox.
-               */
-            });
+            .catch(() => {});
         } else {
           video.pause();
-
-          /*
-           * Reset inactive previews.
-           */
 
           try {
             video.currentTime = 0;
           } catch {
-            // Ignore seek errors.
           }
         }
       }
@@ -397,10 +345,6 @@ function SocialRail({
     activeIndex,
     lightboxIndex,
   ]);
-
-  /* =========================================================
-     DRAG TO SCROLL
-  ========================================================= */
 
   useEffect(() => {
     const rail = railRef.current;
@@ -503,10 +447,6 @@ function SocialRail({
     };
   }, []);
 
-  /* =========================================================
-     LIGHTBOX FUNCTIONS
-  ========================================================= */
-
   const openLightbox = (
     index: number
   ) => {
@@ -548,10 +488,6 @@ function SocialRail({
             items.length
     );
   };
-
-  /* =========================================================
-     LIGHTBOX KEYBOARD CONTROLS
-  ========================================================= */
 
   useEffect(() => {
     if (
@@ -602,10 +538,6 @@ function SocialRail({
     isAr,
   ]);
 
-  /* =========================================================
-     EMPTY STATE
-  ========================================================= */
-
   if (items.length === 0) {
     return (
       <EmptyState
@@ -614,19 +546,11 @@ function SocialRail({
     );
   }
 
-  /* =========================================================
-     RENDER
-  ========================================================= */
-
   return (
     <div
       className="social-rail-wrap"
       ref={sectionRef}
     >
-      {/* =====================================================
-          RAIL CONTROLS
-      ===================================================== */}
-
       <div className="rail-controls">
         <button
           type="button"
@@ -683,10 +607,6 @@ function SocialRail({
         </button>
       </div>
 
-      {/* =====================================================
-          VIDEO RAIL
-      ===================================================== */}
-
       <div
         className="reel-rail"
         ref={railRef}
@@ -720,13 +640,6 @@ function SocialRail({
                 'mp4' ||
               resolved.kind ===
                 'webm';
-
-            /*
-             * IMPORTANT:
-             * Use the resolved video URL
-             * first, then fallback to
-             * item.src.
-             */
 
             const videoUrl =
               resolved.videoSrc ||
@@ -776,11 +689,6 @@ function SocialRail({
                   </div>
                 ) : (
                   <>
-                    {/* =================================================
-                        VIDEO PREVIEW
-                    ================================================= */}
-
-<<<<<<< HEAD
                     {resolved.kind === 'drive-video' ? (
                       <iframe
                         src={resolved.embedUrl}
@@ -797,29 +705,13 @@ function SocialRail({
                           pointerEvents: 'none',
                         }}
                       />
-                    ) : isVideoFile &&
-                      !hasFailed ? (
+                    ) : isVideoFile && !hasFailed ? (
                       <video
                         ref={(element) => {
                           videoRefs.current[i] = element;
                         }}
                         src={videoUrl}
                         poster={item.poster || undefined}
-=======
-                    {isVideoFile &&
-                    !hasFailed ? (
-                      <video
-                        ref={(element) => {
-                          videoRefs.current[
-                            i
-                          ] = element;
-                        }}
-                        src={videoUrl}
-                        poster={
-                          item.poster ||
-                          undefined
-                        }
->>>>>>> 065ac8faf2546a213be67d9dc521eb4fc38e4d74
                         muted
                         autoPlay
                         loop
@@ -827,7 +719,6 @@ function SocialRail({
                         preload="metadata"
                         controls={false}
                         disablePictureInPicture
-<<<<<<< HEAD
                         onLoadedMetadata={(event) => {
                           const video = event.currentTarget;
                           video.muted = true;
@@ -863,69 +754,6 @@ function SocialRail({
                             ...current,
                             [item.id]: true,
                           }));
-=======
-                        onLoadedMetadata={(
-                          event
-                        ) => {
-                          const video =
-                            event.currentTarget;
-
-                          video.muted =
-                            true;
-
-                          if (
-                            i ===
-                              activeIndex &&
-                            lightboxIndex ===
-                              null &&
-                            !isReducedMotion.current
-                          ) {
-                            video
-                              .play()
-                              .catch(
-                                () => {}
-                              );
-                          }
-                        }}
-                        onCanPlay={(
-                          event
-                        ) => {
-                          const video =
-                            event.currentTarget;
-
-                          if (
-                            i ===
-                              activeIndex &&
-                            lightboxIndex ===
-                              null &&
-                            !isReducedMotion.current
-                          ) {
-                            video
-                              .play()
-                              .catch(
-                                () => {}
-                              );
-                          }
-                        }}
-                        onError={() => {
-                          console.error(
-                            'Video failed to load:',
-                            {
-                              id: item.id,
-                              src: item.src,
-                              resolved,
-                              videoUrl,
-                            }
-                          );
-
-                          setFailed(
-                            (current) => ({
-                              ...current,
-                              [item.id]:
-                                true,
-                            })
-                          );
->>>>>>> 065ac8faf2546a213be67d9dc521eb4fc38e4d74
                         }}
                       />
                     ) : thumb ? (
@@ -987,10 +815,6 @@ function SocialRail({
         )}
       </div>
 
-      {/* =====================================================
-          PROGRESS BAR
-      ===================================================== */}
-
       <div className="rail-progress">
         <div
           className="rail-progress-fill"
@@ -1002,10 +826,6 @@ function SocialRail({
           }}
         />
       </div>
-
-      {/* =====================================================
-          LIGHTBOX
-      ===================================================== */}
 
       {lightboxIndex !==
         null &&
@@ -1048,8 +868,6 @@ function SocialRail({
                 closeLightbox
               }
             >
-              {/* CLOSE */}
-
               <button
                 type="button"
                 className="lightbox-close"
@@ -1064,8 +882,6 @@ function SocialRail({
               >
                 <X size={24} />
               </button>
-
-              {/* PREVIOUS */}
 
               <button
                 type="button"
@@ -1088,8 +904,6 @@ function SocialRail({
                 />
               </button>
 
-              {/* NEXT */}
-
               <button
                 type="button"
                 className="lightbox-nav next"
@@ -1111,8 +925,6 @@ function SocialRail({
                 />
               </button>
 
-              {/* CONTENT */}
-
               <div
                 className={`lightbox-content ${
                   isVertical
@@ -1123,10 +935,6 @@ function SocialRail({
                   event.stopPropagation()
                 }
               >
-                {/* =================================================
-                    YOUTUBE / GOOGLE DRIVE VIDEO
-                ================================================= */}
-
                 {isEmbed ? (
                   <iframe
                     key={item.id}
@@ -1140,10 +948,6 @@ function SocialRail({
                     allowFullScreen
                   />
                 ) : isImage ? (
-                  /* =================================================
-                     IMAGE
-                  ================================================= */
-
                   <img
                     src={
                       item.poster ||
@@ -1156,10 +960,6 @@ function SocialRail({
                     )}
                   />
                 ) : lightboxError ? (
-                  /* =================================================
-                     ERROR
-                  ================================================= */
-
                   <div
                     style={{
                       color: '#fff',
@@ -1175,10 +975,6 @@ function SocialRail({
                     })}
                   </div>
                 ) : (
-                  /* =================================================
-                     NORMAL VIDEO
-                  ================================================= */
-
                   <video
                     key={item.id}
                     src={videoUrl}
@@ -1215,10 +1011,6 @@ function SocialRail({
                   />
                 )}
 
-                {/* =================================================
-                    CAPTION
-                ================================================= */}
-
                 <div className="lightbox-caption">
                   <strong>
                     {tr(
@@ -1239,10 +1031,6 @@ function SocialRail({
     </div>
   );
 }
-
-/* =========================================================
-   MARKETING GRID
-========================================================= */
 
 function MarketingGrid({
   lang,
@@ -1337,10 +1125,6 @@ function MarketingGrid({
     );
   };
 
-  /* =========================================================
-     LIGHTBOX KEYBOARD
-  ========================================================= */
-
   useEffect(() => {
     if (
       lightboxIndex === null
@@ -1390,10 +1174,6 @@ function MarketingGrid({
     isAr,
   ]);
 
-  /* =========================================================
-     3D TILT
-  ========================================================= */
-
   const handleMouseMove = (
     event: MouseEvent<HTMLDivElement>
   ) => {
@@ -1440,10 +1220,6 @@ function MarketingGrid({
       '';
   };
 
-  /* =========================================================
-     EMPTY STATE
-  ========================================================= */
-
   if (allItems.length === 0) {
     return (
       <EmptyState
@@ -1452,16 +1228,8 @@ function MarketingGrid({
     );
   }
 
-  /* =========================================================
-     RENDER
-  ========================================================= */
-
   return (
     <div className="marketing-wrap">
-      {/* =====================================================
-          SUB FILTERS
-      ===================================================== */}
-
       <div className="sub-filter-row">
         {subFilters.map(
           (filter) => (
@@ -1487,10 +1255,6 @@ function MarketingGrid({
           )
         )}
       </div>
-
-      {/* =====================================================
-          MARKETING GRID
-      ===================================================== */}
 
       <div
         className="marketing-grid"
@@ -1614,10 +1378,6 @@ function MarketingGrid({
           }
         )}
       </div>
-
-      {/* =====================================================
-          MARKETING LIGHTBOX
-      ===================================================== */}
 
       {lightboxIndex !==
         null &&
@@ -1754,10 +1514,6 @@ function MarketingGrid({
   );
 }
 
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-
 function EmptyState({
   lang,
 }: {
@@ -1778,10 +1534,6 @@ function EmptyState({
     </div>
   );
 }
-
-/* =========================================================
-   MAIN WORK SECTION
-========================================================= */
 
 export default function WorkSection({
   lang,
@@ -1817,10 +1569,6 @@ export default function WorkSection({
     width: 0,
   });
 
-  /* =========================================================
-     COUNTS
-  ========================================================= */
-
   const counts: Record<
     TabId,
     number
@@ -1835,10 +1583,6 @@ export default function WorkSection({
         marketingWorks
       ).length,
   };
-
-  /* =========================================================
-     TAB CHANGE
-  ========================================================= */
 
   const handleTabChange = (
     tab: TabId,
@@ -1867,10 +1611,6 @@ export default function WorkSection({
     );
   };
 
-  /* =========================================================
-     TAB INDICATOR
-  ========================================================= */
-
   useEffect(() => {
     const activeButton =
       tabRefs.current[
@@ -1891,20 +1631,12 @@ export default function WorkSection({
     lang,
   ]);
 
-  /* =========================================================
-     RENDER
-  ========================================================= */
-
   return (
     <section
       id="work"
       className="section-cream work-section"
     >
       <div className="container">
-        {/* ===================================================
-            HEADER
-        =================================================== */}
-
         <div
           className="work-header"
           data-reveal
@@ -1953,10 +1685,6 @@ export default function WorkSection({
             })}
           </p>
         </div>
-
-        {/* ===================================================
-            MAIN TABS
-        =================================================== */}
 
         <div
           className="work-tabs"
@@ -2010,10 +1738,6 @@ export default function WorkSection({
             )}
           </div>
         </div>
-
-        {/* ===================================================
-            WORK PANEL
-        =================================================== */}
 
         <div
           className={`work-panel ${
