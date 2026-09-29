@@ -14,6 +14,7 @@ export type SocialVideo = {
   poster?: string;
   ratio?: '9:16' | '16:9';
 };
+ 
 
 export type MarketingWork = {
   id: string;
